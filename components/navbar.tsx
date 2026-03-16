@@ -1,3 +1,5 @@
+'use client';
+
 import {
     Disclosure,
     DisclosureButton,
@@ -9,12 +11,13 @@ import {
 } from '@headlessui/react';
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { ModeToggle } from '@/components/mode-toggle';
+import { useState } from 'react';
 
 const navigation = [
-    { name: 'Dashboard', href: '#', current: true },
-    { name: 'Team', href: '#', current: false },
-    { name: 'Projects', href: '#', current: false },
-    { name: 'Calendar', href: '#', current: false },
+    { name: 'How it works', href: '#', current: false },
+    { name: 'Topics', href: '#', current: false },
+    { name: 'Leaderboard', href: '#', current: false },
+    { name: 'About', href: '#', current: false },
 ];
 
 function classNames(...classes: (string | undefined | null | false)[]) {
@@ -22,16 +25,18 @@ function classNames(...classes: (string | undefined | null | false)[]) {
 }
 
 export default function NavBar() {
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
     return (
         <Disclosure
             as="nav"
-            className="relative bg-gray-800 dark:bg-gray-800/50 dark:after:pointer-events-none dark:after:absolute dark:after:inset-x-0 dark:after:bottom-0 dark:after:h-px dark:after:bg-white/10"
+            className="relative bg-transparent dark:bg-transparent"
         >
             <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
                 <div className="relative flex h-16 items-center justify-between">
                     <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                         {/* Mobile menu button*/}
-                        <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-white/5 hover:text-white focus:outline-2 focus:-outline-offset-1 focus:outline-indigo-500">
+                        <DisclosureButton className="group relative inline-flex items-center justify-center rounded-md p-2 text-gray-900 hover:bg-gray-100 hover:text-gray-900 focus:outline-2 focus:-outline-offset-1 focus:outline-indigo-500 dark:text-white dark:hover:bg-white/10 dark:hover:text-white">
                             <span className="absolute -inset-0.5" />
                             <span className="sr-only">Open main menu</span>
                             <Bars3Icon
@@ -63,8 +68,8 @@ export default function NavBar() {
                                         }
                                         className={classNames(
                                             item.current
-                                                ? 'bg-gray-900 text-white dark:bg-gray-950/50'
-                                                : 'text-gray-300 hover:bg-white/5 hover:text-white',
+                                                ? 'bg-gray-100 text-gray-900 dark:bg-white/10 dark:text-white'
+                                                : 'text-gray-900 hover:bg-gray-100 hover:text-gray-900 dark:text-white dark:hover:bg-white/10 dark:hover:text-white',
                                             'rounded-md px-3 py-2 text-sm font-medium'
                                         )}
                                     >
@@ -74,59 +79,78 @@ export default function NavBar() {
                             </div>
                         </div>
                     </div>
-                    <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                        <button
-                            type="button"
-                            className="relative rounded-full p-1 text-gray-400 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-500 dark:hover:text-white"
-                        >
-                            <span className="absolute -inset-1.5" />
-                            <span className="sr-only">View notifications</span>
-                            <BellIcon aria-hidden="true" className="size-6" />
-                        </button>
-
-                        {/* Profile dropdown */}
-                        <Menu as="div" className="relative ml-3">
-                            <MenuButton className="relative flex rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
-                                <span className="absolute -inset-1.5" />
-                                <span className="sr-only">Open user menu</span>
-                                <img
-                                    alt=""
-                                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                    className="size-8 rounded-full bg-gray-800 outline -outline-offset-1 outline-white/10"
-                                />
-                            </MenuButton>
-
-                            <MenuItems
-                                transition
-                                className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg outline outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in dark:bg-gray-800 dark:shadow-none dark:-outline-offset-1 dark:outline-white/10"
+                    {isLoggedIn && (
+                        <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                            <button
+                                type="button"
+                                className="relative rounded-full p-1 text-gray-900 hover:bg-gray-100 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-500 dark:text-white dark:hover:bg-white/10 dark:hover:text-white"
                             >
-                                <MenuItem>
-                                    <a
-                                        href="#"
-                                        className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden dark:text-gray-300 dark:data-focus:bg-white/5"
-                                    >
-                                        Your profile
-                                    </a>
-                                </MenuItem>
-                                <MenuItem>
-                                    <a
-                                        href="#"
-                                        className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden dark:text-gray-300 dark:data-focus:bg-white/5"
-                                    >
-                                        Settings
-                                    </a>
-                                </MenuItem>
-                                <MenuItem>
-                                    <a
-                                        href="#"
-                                        className="block px-4 py-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:outline-hidden dark:text-gray-300 dark:data-focus:bg-white/5"
-                                    >
-                                        Sign out
-                                    </a>
-                                </MenuItem>
-                            </MenuItems>
-                        </Menu>
-                    </div>
+                                <span className="absolute -inset-1.5" />
+                                <span className="sr-only">
+                                    View notifications
+                                </span>
+                                <BellIcon
+                                    aria-hidden="true"
+                                    className="size-6"
+                                />
+                            </button>
+
+                            {/* Profile dropdown */}
+                            <Menu as="div" className="relative ml-3">
+                                <MenuButton className="relative flex rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
+                                    <span className="absolute -inset-1.5" />
+                                    <span className="sr-only">
+                                        Open user menu
+                                    </span>
+                                    <img
+                                        alt=""
+                                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                        className="size-8 rounded-full bg-transparent outline -outline-offset-1 outline-white/10"
+                                    />
+                                </MenuButton>
+
+                                <MenuItems
+                                    transition
+                                    className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white/90 py-1 shadow-lg outline outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in dark:bg-gray-900/90 dark:shadow-none dark:-outline-offset-1 dark:outline-white/10"
+                                >
+                                    <MenuItem>
+                                        <a
+                                            href="#"
+                                            className="block px-4 py-2 text-sm text-gray-900 data-focus:bg-gray-100 data-focus:outline-hidden dark:text-white dark:data-focus:bg-white/10"
+                                        >
+                                            Your profile
+                                        </a>
+                                    </MenuItem>
+                                    <MenuItem>
+                                        <a
+                                            href="#"
+                                            className="block px-4 py-2 text-sm text-gray-900 data-focus:bg-gray-100 data-focus:outline-hidden dark:text-white dark:data-focus:bg-white/10"
+                                        >
+                                            Settings
+                                        </a>
+                                    </MenuItem>
+                                    <MenuItem>
+                                        <a
+                                            href="#"
+                                            className="block px-4 py-2 text-sm text-gray-900 data-focus:bg-gray-100 data-focus:outline-hidden dark:text-white dark:data-focus:bg-white/10"
+                                        >
+                                            Sign out
+                                        </a>
+                                    </MenuItem>
+                                </MenuItems>
+                            </Menu>
+                        </div>
+                    )}
+                    {!isLoggedIn && (
+                        <div className="py-6">
+                            <a
+                                href="#"
+                                className="-mx-3 block rounded-lg px-3 py-2.5 text-sm font-semibold text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-white/10"
+                            >
+                                Log in
+                            </a>
+                        </div>
+                    )}
                 </div>
             </div>
 
@@ -140,8 +164,8 @@ export default function NavBar() {
                             aria-current={item.current ? 'page' : undefined}
                             className={classNames(
                                 item.current
-                                    ? 'bg-gray-900 text-white dark:bg-gray-950/50'
-                                    : 'text-gray-300 hover:bg-white/5 hover:text-white',
+                                    ? 'bg-gray-100 text-gray-900 dark:bg-white/10 dark:text-white'
+                                    : 'text-gray-900 hover:bg-gray-100 hover:text-gray-900 dark:text-white dark:hover:bg-white/10 dark:hover:text-white',
                                 'block rounded-md px-3 py-2 text-base font-medium'
                             )}
                         >

@@ -6,10 +6,10 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 
 const navigation = [
-    { name: 'Product', href: '#' },
-    { name: 'Features', href: '#' },
-    { name: 'Marketplace', href: '#' },
-    { name: 'Company', href: '#' },
+    { name: 'How it Works', href: '#' },
+    { name: 'Topics', href: '#' },
+    { name: 'Leaderboard', href: '#' },
+    { name: 'About', href: '#' },
 ];
 
 export default function Example() {
@@ -17,7 +17,7 @@ export default function Example() {
 
     return (
         <div className="bg-white dark:bg-gray-900">
-            <header className="absolute inset-x-0 top-0 z-50">
+            {/* <header className="absolute inset-x-0 top-0 z-50">
                 <nav
                     aria-label="Global"
                     className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
@@ -129,7 +129,7 @@ export default function Example() {
                         </div>
                     </DialogPanel>
                 </Dialog>
-            </header>
+            </header> */}
             <main>
                 <div className="relative isolate">
                     <svg
@@ -185,24 +185,25 @@ export default function Example() {
                                         Learn philosophy in an interactive way
                                     </h1>
                                     <p className="mt-8 text-lg font-medium text-pretty text-gray-500 sm:max-w-md sm:text-xl/8 lg:max-w-none dark:text-gray-400">
-                                        Anim aute id magna aliqua ad ad non
-                                        deserunt sunt. Qui irure qui lorem
-                                        cupidatat commodo. Elit sunt amet fugiat
-                                        veniam occaecat fugiat aliqua. Anim aute
-                                        id magna aliqua ad ad non deserunt sunt.
+                                        Master epistemology and Bayesian
+                                        thinking through bite-sized lessons,
+                                        interactive puzzles, and real-world
+                                        scenarios. Earn points, unlock levels,
+                                        and build genuine intuition — no
+                                        textbooks required.
                                     </p>
                                     <div className="mt-10 flex items-center gap-x-6">
                                         <a
                                             href="#"
                                             className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:bg-indigo-500 dark:hover:bg-indigo-400 dark:focus-visible:outline-indigo-500"
                                         >
-                                            Get started
+                                            Start learning - it&apos;s free
                                         </a>
                                         <a
                                             href="#"
                                             className="text-sm/6 font-semibold text-gray-900 dark:text-white"
                                         >
-                                            Live demo{' '}
+                                            See how it works{' '}
                                             <span aria-hidden="true">→</span>
                                         </a>
                                     </div>
@@ -212,9 +213,9 @@ export default function Example() {
                                         <div className="relative">
                                             <Image
                                                 alt=""
-                                                width={500}
-                                                height={500}
-                                                src="https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&h=528&q=80"
+                                                width={1500}
+                                                height={1500}
+                                                src="/landing/books-2.jpg"
                                                 className="aspect-2/3 w-full rounded-xl bg-gray-900/5 object-cover shadow-lg dark:bg-gray-700/5"
                                             />
                                             <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-gray-900/10 ring-inset dark:ring-white/10" />
@@ -224,9 +225,9 @@ export default function Example() {
                                         <div className="relative">
                                             <Image
                                                 alt=""
-                                                width={500}
-                                                height={500}
-                                                src="https://images.unsplash.com/photo-1485217988980-11786ced9454?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&h=528&q=80"
+                                                width={1500}
+                                                height={1500}
+                                                src="/landing/skull.jpg"
                                                 className="aspect-2/3 w-full rounded-xl bg-gray-900/5 object-cover shadow-lg dark:bg-gray-700/5"
                                             />
                                             <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-gray-900/10 ring-inset dark:ring-white/10" />
@@ -234,9 +235,9 @@ export default function Example() {
                                         <div className="relative">
                                             <Image
                                                 alt=""
-                                                width={500}
-                                                height={500}
-                                                src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&crop=focalpoint&fp-x=.4&w=396&h=528&q=80"
+                                                width={1500}
+                                                height={1500}
+                                                src="/landing/laptop.jpg"
                                                 className="aspect-2/3 w-full rounded-xl bg-gray-900/5 object-cover shadow-lg dark:bg-gray-700/5"
                                             />
                                             <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-gray-900/10 ring-inset dark:ring-white/10" />
@@ -246,9 +247,9 @@ export default function Example() {
                                         <div className="relative">
                                             <Image
                                                 alt=""
-                                                width={500}
-                                                height={500}
-                                                src="https://images.unsplash.com/photo-1670272504528-790c24957dda?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&crop=left&w=400&h=528&q=80"
+                                                width={1500}
+                                                height={1500}
+                                                src="/landing/person-data.jpg"
                                                 className="aspect-2/3 w-full rounded-xl bg-gray-900/5 object-cover shadow-lg dark:bg-gray-700/5"
                                             />
                                             <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-gray-900/10 ring-inset dark:ring-white/10" />
@@ -256,9 +257,9 @@ export default function Example() {
                                         <div className="relative">
                                             <Image
                                                 alt=""
-                                                width={500}
-                                                height={500}
-                                                src="https://images.unsplash.com/photo-1670272505284-8faba1c31f7d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&h=528&q=80"
+                                                width={1500}
+                                                height={1500}
+                                                src="/landing/person-dark.jpg"
                                                 className="aspect-2/3 w-full rounded-xl bg-gray-900/5 object-cover shadow-lg dark:bg-gray-700/5"
                                             />
                                             <div className="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-gray-900/10 ring-inset dark:ring-white/10" />
