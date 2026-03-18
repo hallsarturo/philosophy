@@ -1,7 +1,3 @@
-import {signIn} from 'next-auth/'
-
-// TODO: check if env is production or local
-
 export function SignUp() {
     return (
         <>
