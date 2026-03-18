@@ -1,4 +1,24 @@
+'use client';
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { authClient } from '@/lib/auth-client';
+import Image from 'next/image';
+
 export function SignUp() {
+    const router = useRouter();
+    const [error, setError] = useState<string | null>(null);
+
+    async function handleSubmit(provider: string) {
+        //TODO: add error HTML, Loaders
+        await authClient.signIn.social({
+            provider: provider,
+            callbackURL: '/dashboard',
+            errorCallbackURL: '/error',
+            newUserCallbackURL: '/welcome',
+        });
+    }
+
     return (
         <>
             {/*
@@ -11,12 +31,16 @@ export function SignUp() {
       */}
             <div className="flex min-h-screen flex-col justify-center py-12 sm:px-6 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-md">
-                    <img
+                    <Image
+                        height={500}
+                        width={500}
                         alt="Your Company"
                         src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
                         className="mx-auto h-10 w-auto dark:hidden"
                     />
-                    <img
+                    <Image
+                        height={500}
+                        width={500}
                         alt="Your Company"
                         src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
                         className="mx-auto h-10 w-auto not-dark:hidden"
@@ -30,7 +54,12 @@ export function SignUp() {
                     <div className="bg-white px-6 py-12 shadow-sm sm:rounded-lg sm:px-12 dark:bg-gray-800/50 dark:shadow-none dark:outline dark:-outline-offset-1 dark:outline-white/10">
                         <div>
                             <div className="mt-6 grid grid-cols-2 gap-4">
-                                <button className="flex w-full items-center justify-center gap-3 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 focus-visible:inset-ring-transparent dark:bg-white/10 dark:text-white dark:shadow-none dark:inset-ring-white/5 dark:hover:bg-white/20">
+                                <button
+                                    className="flex w-full items-center justify-center gap-3 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 focus-visible:inset-ring-transparent dark:bg-white/10 dark:text-white dark:shadow-none dark:inset-ring-white/5 dark:hover:bg-white/20 cursor-pointer"
+                                    onClick={() => {
+                                        handleSubmit('google');
+                                    }}
+                                >
                                     <svg
                                         viewBox="0 0 24 24"
                                         aria-hidden="true"
@@ -75,7 +104,7 @@ export function SignUp() {
                                         />
                                     </svg>
                                     <span className="text-sm/6 font-semibold">
-                                        X
+                                        Meta
                                     </span>
                                 </a>
                             </div>
