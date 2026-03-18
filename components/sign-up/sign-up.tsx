@@ -1,3 +1,7 @@
+import {signIn} from 'next-auth/'
+
+// TODO: check if env is production or local
+
 export function SignUp() {
     return (
         <>
@@ -30,10 +34,7 @@ export function SignUp() {
                     <div className="bg-white px-6 py-12 shadow-sm sm:rounded-lg sm:px-12 dark:bg-gray-800/50 dark:shadow-none dark:outline dark:-outline-offset-1 dark:outline-white/10">
                         <div>
                             <div className="mt-6 grid grid-cols-2 gap-4">
-                                <a
-                                    href="#"
-                                    className="flex w-full items-center justify-center gap-3 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 focus-visible:inset-ring-transparent dark:bg-white/10 dark:text-white dark:shadow-none dark:inset-ring-white/5 dark:hover:bg-white/20"
-                                >
+                                <button className="flex w-full items-center justify-center gap-3 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 focus-visible:inset-ring-transparent dark:bg-white/10 dark:text-white dark:shadow-none dark:inset-ring-white/5 dark:hover:bg-white/20">
                                     <svg
                                         viewBox="0 0 24 24"
                                         aria-hidden="true"
@@ -59,7 +60,7 @@ export function SignUp() {
                                     <span className="text-sm/6 font-semibold">
                                         Google
                                     </span>
-                                </a>
+                                </button>
 
                                 <a
                                     href="#"
