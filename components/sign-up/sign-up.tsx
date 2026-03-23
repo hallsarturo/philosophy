@@ -9,24 +9,26 @@ export function SignUp() {
     const router = useRouter();
     const [error, setError] = useState<string | null>(null);
 
-    async function handleSignUp(e: React.FormEvent<HTMLFormElement>) {
-        e.preventDefault()
-        setError(null)
-        const formData = new FormData(e.currentTarget)
-        const res = await signUp.email({
-            name: formData.get("nme")
-        })
+    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        setError(null);
+        const formData = new FormData(e.currentTarget);
+        const res = await authClient.signUp.email({
+            name: formData.get('name') as string,
+            email: formData.get('email') as string,
+            password: formData.get('password') as string,
+        });
+        if (res.error) {
+            setError(res.error.message || 'Something went wrong.');
+        } else {
+            router.push('/dashboard');
+        }
     }
 
-
-    async function handleSubmit(provider: string) {
+    async function handleGoogleSignUp(provider: string) {
+        setError(null);
         //TODO: add error HTML, Loaders
-        await authClient.signIn.social({
-            provider: provider,
-            callbackURL: '/dashboard',
-            errorCallbackURL: '/error',
-            newUserCallbackURL: '/welcome',
-        });
+        authClient.signIn.social({ provider: provider });
     }
 
     return (
@@ -62,7 +64,25 @@ export function SignUp() {
 
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
                     <div className="bg-white px-6 py-12 shadow-sm sm:rounded-lg sm:px-12 dark:bg-gray-800/50 dark:shadow-none dark:outline dark:-outline-offset-1 dark:outline-white/10">
-                        <form action="#" method="POST" className="space-y-6">
+                        <form onSubmit={handleSubmit} className="space-y-6">
+                            <div>
+                                <label
+                                    htmlFor="name"
+                                    className="block text-sm/6 font-medium text-gray-900 dark:text-white"
+                                >
+                                    Name
+                                </label>
+                                <div className="mt-2">
+                                    <input
+                                        id="name"
+                                        name="name"
+                                        type="text"
+                                        required
+                                        autoComplete="Name"
+                                        className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 dark:bg-white/5 dark:text-white dark:outline-white/10 dark:placeholder:text-gray-500 dark:focus:outline-indigo-500"
+                                    />
+                                </div>
+                            </div>
                             <div>
                                 <label
                                     htmlFor="email"
@@ -161,12 +181,14 @@ export function SignUp() {
                             </div>
                         </form>
 
+                        {error && <p className="text-red-500">{error}</p>}
+
                         <div>
                             <div className="mt-6 grid grid-cols-2 gap-4">
                                 <button
                                     className="flex w-full items-center justify-center gap-3 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 focus-visible:inset-ring-transparent dark:bg-white/10 dark:text-white dark:shadow-none dark:inset-ring-white/5 dark:hover:bg-white/20 cursor-pointer"
                                     onClick={() => {
-                                        handleSubmit('google');
+                                        handleGoogleSignUp('google');
                                     }}
                                 >
                                     <svg
