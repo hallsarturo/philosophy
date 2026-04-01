@@ -12,8 +12,9 @@ import {
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { ModeToggle } from '@/components/mode-toggle';
 import { LogIn } from '@/components/log-in/log-in';
-import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { authClient } from '@/lib/auth-client';
+import { useRouter } from 'next/navigation';
 
 const navigation = [
     { name: 'How it works', href: '#', current: false },
@@ -27,18 +28,25 @@ function classNames(...classes: (string | undefined | null | false)[]) {
 }
 
 export default function NavBar() {
+    const router = useRouter();
+
+    async function handleSignOut() {
+        await authClient.signOut({
+            fetchOptions: {
+                onSuccess: () => {
+                    router.push('/'); // redirect to login page
+                },
+            },
+        });
+    }
+
+    // Setting session state
     const {
         data: session,
         isPending,
         error,
         refetch,
     } = authClient.useSession();
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-    // Setting session state
-    useEffect(() => {
-        setIsLoggedIn(!!session);
-    }, [session]);
 
     return (
         <Disclosure
@@ -64,8 +72,10 @@ export default function NavBar() {
                     </div>
                     <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                         <div className="flex shrink-0 items-center">
-                            <img
-                                alt="Your Company"
+                            <Image
+                                alt="Think Phi"
+                                width={350}
+                                height={350}
                                 src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
                                 className="h-8 w-auto"
                             />
@@ -92,7 +102,10 @@ export default function NavBar() {
                             </div>
                         </div>
                     </div>
-                    {isLoggedIn && (
+                    <div className="mr-3">
+                        <ModeToggle />
+                    </div>
+                    {session && (
                         <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                             <button
                                 type="button"
@@ -115,9 +128,14 @@ export default function NavBar() {
                                     <span className="sr-only">
                                         Open user menu
                                     </span>
-                                    <img
+                                    <Image
                                         alt=""
-                                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                        width={350}
+                                        height={350}
+                                        src={
+                                            session.user.image ||
+                                            'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
+                                        }
                                         className="size-8 rounded-full bg-transparent outline -outline-offset-1 outline-white/10"
                                     />
                                 </MenuButton>
@@ -126,6 +144,11 @@ export default function NavBar() {
                                     transition
                                     className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white/90 py-1 shadow-lg outline outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in dark:bg-gray-900/90 dark:shadow-none dark:-outline-offset-1 dark:outline-white/10"
                                 >
+                                    <MenuItem>
+                                        <div className="block px-4 py-2 text-sm text-gray-900 font-bold data-focus:bg-gray-100 data-focus:outline-hidden dark:text-white dark:data-focus:bg-white/10">
+                                            {session.user.name}
+                                        </div>
+                                    </MenuItem>
                                     <MenuItem>
                                         <a
                                             href="#"
@@ -143,22 +166,19 @@ export default function NavBar() {
                                         </a>
                                     </MenuItem>
                                     <MenuItem>
-                                        <a
-                                            href="#"
-                                            className="block px-4 py-2 text-sm text-gray-900 data-focus:bg-gray-100 data-focus:outline-hidden dark:text-white dark:data-focus:bg-white/10"
+                                        <button
+                                            onClick={handleSignOut}
+                                            className="block px-4 py-2 w-full text-left text-sm text-gray-900 data-focus:bg-gray-100 data-focus:outline-hidden dark:text-white dark:data-focus:bg-white/10 cursor-pointer"
                                         >
                                             Sign out
-                                        </a>
+                                        </button>
                                     </MenuItem>
                                 </MenuItems>
                             </Menu>
                         </div>
                     )}
-                    <div className="mr-6">
-                        <ModeToggle />
-                    </div>
 
-                    {!isLoggedIn && (
+                    {!session && (
                         <div className="py-6">
                             <LogIn />
                         </div>
