@@ -12,7 +12,8 @@ import {
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { ModeToggle } from '@/components/mode-toggle';
 import { LogIn } from '@/components/log-in/log-in';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { authClient } from '@/lib/auth-client';
 
 const navigation = [
     { name: 'How it works', href: '#', current: false },
@@ -26,7 +27,18 @@ function classNames(...classes: (string | undefined | null | false)[]) {
 }
 
 export default function NavBar() {
+    const {
+        data: session,
+        isPending,
+        error,
+        refetch,
+    } = authClient.useSession();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    // Setting session state
+    useEffect(() => {
+        setIsLoggedIn(!!session);
+    }, [session]);
 
     return (
         <Disclosure
@@ -149,7 +161,6 @@ export default function NavBar() {
                     {!isLoggedIn && (
                         <div className="py-6">
                             <LogIn />
-                            
                         </div>
                     )}
                 </div>
