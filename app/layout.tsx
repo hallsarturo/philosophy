@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { ThemeProvider } from '@/components/theme-provider';
+import { NextIntlClientProvider } from 'next-intl';
 import NavBar from '@/components/navbar/navbar';
 import Footer from '@/components/footer/footer';
 import './globals.css';
@@ -33,7 +34,7 @@ export default function RootLayout({
                     disableTransitionOnChange
                 >
                     <NavBar />
-                    {children}
+                    <NextIntlClientProvider>{children}</NextIntlClientProvider>
                     <Footer />
                 </ThemeProvider>
             </body>
