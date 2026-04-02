@@ -1,14 +1,15 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import { EllipsisVerticalIcon } from '@heroicons/react/20/solid';
+import { LockClosedIcon } from '@heroicons/react/24/outline';
 
 const topicsList = [
-    { key: 1, title: 'Filosophy of Religion', courses: { c1: 'Course 1' } },
-    { key: 2, title: 'Bayesian Thinking', courses: { c1: 'Course 1' } },
     {
-        key: 3,
+        key: 1,
         title: 'Pseudo-Science Demarcation',
         courses: { c1: 'Course 1' },
     },
+    { key: 2, title: 'Bayesian Thinking', courses: { c1: 'Course 1' } },
+    { key: 3, title: 'Filosophy of Religion', courses: { c1: 'Course 1' } },
 ];
 const projects = [
     {
@@ -16,35 +17,30 @@ const projects = [
         name: 'GraphQL API',
         href: '#',
         status: 'Complete',
-     
     },
     {
         id: 2,
         name: 'New benefits plan',
         href: '#',
         status: 'In progress',
-      
     },
     {
         id: 3,
         name: 'Onboarding emails',
         href: '#',
         status: 'In progress',
-       
     },
     {
         id: 4,
         name: 'iOS app',
         href: '#',
         status: 'In progress',
-      
     },
     {
         id: 5,
         name: 'Marketing site redesign',
         href: '#',
         status: 'Archived',
-       
     },
 ];
 
@@ -65,9 +61,14 @@ export default function Page() {
                         key={topic.key}
                         className="divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow-sm dark:divide-white/10 dark:bg-gray-800/50 dark:shadow-none dark:outline dark:-outline-offset-1 dark:outline-white/10"
                     >
-                        <div className="font-semibold px-4 py-5 sm:px-6">
+                        <div className="flex justify-between align-middle font-semibold px-4 py-5 sm:px-6">
                             {topic.title}
-                            {/* We use less vertical padding on card headers on desktop than on body sections */}
+                            <button
+                                type="button"
+                                className="rounded-full bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                            >
+                                Start course
+                            </button>
                         </div>
                         <div className="px-4 py-5 sm:p-6">
                             <ul
@@ -113,8 +114,12 @@ export default function Page() {
                                                 className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 sm:block"
                                             >
                                                 {/* TODO: implement course status in backend */}
-                                                {/* TODO: change locked to padlock icon */}
-                                                {isLocked ? 'go' : 'locked'}
+
+                                                {isLocked ? (
+                                                    <LockClosedIcon className="size-4" />
+                                                ) : (
+                                                    'go'
+                                                )}
                                                 <span className="sr-only">
                                                     , {project.name}
                                                 </span>
