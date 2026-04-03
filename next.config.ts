@@ -13,6 +13,16 @@ const nextConfig: NextConfig = {
             },
             {
                 protocol: 'https',
+                hostname: 'unsplash.com',
+                port: '',
+            },
+            {
+                protocol: 'https',
+                hostname: 'tailwindcss.com',
+                port: '',
+            },
+            {
+                protocol: 'https',
                 hostname: 'lh3.googleusercontent.com',
                 port: '',
             },
