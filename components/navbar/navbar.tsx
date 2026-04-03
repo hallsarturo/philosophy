@@ -9,7 +9,12 @@ import {
     MenuItem,
     MenuItems,
 } from '@headlessui/react';
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import {
+    Bars3Icon,
+    BellIcon,
+    XMarkIcon,
+    TrophyIcon,
+} from '@heroicons/react/24/outline';
 import { ModeToggle } from '@/components/navbar/mode-toggle';
 import LanguageSelector from '@/components/navbar/language-selector';
 import { LogIn } from '@/components/log-in/log-in';
@@ -127,7 +132,7 @@ export default function NavBar() {
                             </button>
 
                             {/* Profile dropdown */}
-                            <Menu as="div" className="relative ml-3">
+                            <Menu as="div" className="relative mx-3">
                                 <MenuButton className="relative flex rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
                                     <span className="absolute -inset-1.5" />
                                     <span className="sr-only">
@@ -180,6 +185,12 @@ export default function NavBar() {
                                     </MenuItem>
                                 </MenuItems>
                             </Menu>
+
+                            {/* Stats Icon */}
+                            <TrophyIcon className="size-6" />
+                            <p className="text-xs">
+                                {'<'}8pts{'>'}
+                            </p>
                         </div>
                     )}
 
