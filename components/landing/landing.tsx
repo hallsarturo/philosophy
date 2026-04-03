@@ -10,7 +10,7 @@ const navigation = [
 
 export default function Example() {
     return (
-        <div className="bg-white dark:bg-gray-900">
+        <div className="min-h-screen bg-white dark:bg-gray-900">
             <main>
                 <div className="relative isolate">
                     <svg
