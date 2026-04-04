@@ -22,11 +22,12 @@ export default function LanguageSelector() {
             ></label>
             <div className="grid grid-cols-1"> */}
             <select
+                // TODO: change selector for shadCN component for prettier aesthethics
                 onChange={handleChange}
                 id="language"
                 name="language-toggle"
                 defaultValue="EN"
-                className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-4 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-indigo-600 sm:text-sm/6 cursor-pointer"
+                className="w-full appearance-none rounded-md bg-white py-1.5 pr-4 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-indigo-600 sm:text-sm/6 cursor-pointer"
             >
                 <option value="en">EN</option>
                 <option value="es">ES</option>
