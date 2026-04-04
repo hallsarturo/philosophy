@@ -1,13 +1,24 @@
 'use client';
 
+import { useState } from 'react';
 import { authClient } from '@/lib/auth-client';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 export function SignUp() {
+    const [isLoading, setIsLoading] = useState(false);
+    const [signInError, setSignInError] = useState<string | null>(null);
+
     async function handleGoogleSignUp(provider: string) {
-        //TODO: add error HTML, Loaders
-        authClient.signIn.social({ provider: provider });
+        setIsLoading(true);
+        setSignInError(null);
+        try {
+            await authClient.signIn.social({ provider: provider });
+        } catch (err: any) {
+            setSignInError(err?.message || 'Sign in failed');
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     // Setting session state
@@ -82,11 +93,17 @@ export function SignUp() {
 
                                 <div>
                                     <div className="mt-6 grid grid-cols-2 gap-4">
+                                        {signInError && (
+                                            <p className="text-red-500">
+                                                {signInError}
+                                            </p>
+                                        )}
                                         <button
                                             className="flex w-full items-center justify-center gap-3 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 focus-visible:inset-ring-transparent dark:bg-white/10 dark:text-white dark:shadow-none dark:inset-ring-white/5 dark:hover:bg-white/20 cursor-pointer"
                                             onClick={() => {
                                                 handleGoogleSignUp('google');
                                             }}
+                                            disabled={isLoading}
                                         >
                                             <svg
                                                 viewBox="0 0 24 24"
@@ -111,7 +128,9 @@ export function SignUp() {
                                                 />
                                             </svg>
                                             <span className="text-sm/6 font-semibold">
-                                                Google
+                                                {isLoading
+                                                    ? 'Signing in...'
+                                                    : 'Google'}
                                             </span>
                                         </button>
 
