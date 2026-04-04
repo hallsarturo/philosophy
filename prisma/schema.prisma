@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client"
   output   = "../lib/generated/prisma"
@@ -18,6 +17,13 @@ model User {
   updatedAt     DateTime
   sessions      Session[]
   accounts      Account[]
+  profile            UserProfile?
+  xpTransactions     XpTransaction[]
+  activityLogs       ActivityLog[]
+  interests          UserInterest[]
+  enrollments        UserCourse[]
+  completedLessons   UserLesson[]
+  achievements       UserAchievement[]
 
   @@unique([email])
   @@map("user")
@@ -69,4 +75,185 @@ model Verification {
 
   @@map("verification")
   @@index([identifier])
+}
+
+// ─── Enums ──────────────────────────────────────────────────────────────────
+
+enum Difficulty {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+}
+
+enum CourseStatus {
+  LOCKED       // prerequisites not met
+  AVAILABLE    // can enroll
+  IN_PROGRESS
+  COMPLETED
+}
+
+// ─── User Gamification Profile ───────────────────────────────────────────────
+
+model UserProfile {
+  id               String    @id @default(cuid())
+  userId           String    @unique
+  user             User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  level            Int       @default(1)
+  totalXp          Int       @default(0)
+  currentStreak    Int       @default(0)   // days
+  longestStreak    Int       @default(0)
+  totalTimeMinutes Int       @default(0)
+  lastActiveAt     DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@map("user_profile")
+}
+
+// XP audit trail — every point earned is recorded here
+model XpTransaction {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  amount    Int
+  reason    String   // "LESSON_COMPLETE", "COURSE_COMPLETE", "STREAK_BONUS", "ACHIEVEMENT"
+  sourceId  String?  // lessonId / courseId / achievementId that triggered it
+  createdAt DateTime @default(now())
+
+  @@map("xp_transaction")
+  @@index([userId])
+}
+
+// ─── Activity & Login Tracking ───────────────────────────────────────────────
+
+model ActivityLog {
+  id              String    @id @default(cuid())
+  userId          String
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  loginAt         DateTime  @default(now())
+  logoutAt        DateTime?
+  durationMinutes Int?      // filled on logout
+
+  @@map("activity_log")
+  @@index([userId])
+}
+
+// ─── Interests (Philosophy Branches) ─────────────────────────────────────────
+
+model Interest {
+  id            String         @id @default(cuid())
+  name          String         @unique  // "Ethics", "Logic", "Epistemology", "Metaphysics"
+  slug          String         @unique
+  description   String?
+  userInterests UserInterest[]
+  courses       Course[]
+
+  @@map("interest")
+}
+
+model UserInterest {
+  userId     String
+  interestId String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  interest   Interest @relation(fields: [interestId], references: [id], onDelete: Cascade)
+
+  @@id([userId, interestId])
+  @@map("user_interest")
+}
+
+// ─── Courses & Lessons ───────────────────────────────────────────────────────
+
+model Course {
+  id             String       @id @default(cuid())
+  title          String
+  slug           String       @unique
+  description    String
+  imageUrl       String?
+  difficulty     Difficulty   @default(BEGINNER)
+  estimatedHours Float?
+  xpReward       Int          @default(100)
+  isPublished    Boolean      @default(false)
+  interestId     String?
+  interest       Interest?    @relation(fields: [interestId], references: [id])
+  prerequisites  Course[]     @relation("CoursePrerequisites")
+  requiredBy     Course[]     @relation("CoursePrerequisites")
+  lessons        Lesson[]
+  enrollments    UserCourse[]
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  @@map("course")
+}
+
+model Lesson {
+  id           String       @id @default(cuid())
+  courseId     String
+  course       Course       @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  title        String
+  content      String       // markdown or rich text
+  order        Int
+  xpReward     Int          @default(20)
+  durationMins Int?
+  completions  UserLesson[]
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  @@map("lesson")
+  @@index([courseId])
+}
+
+// ─── User Progress ───────────────────────────────────────────────────────────
+
+model UserCourse {
+  id              String       @id @default(cuid())
+  userId          String
+  courseId        String
+  user            User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course          Course       @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  status          CourseStatus @default(AVAILABLE)
+  progressPercent Int          @default(0)
+  startedAt       DateTime?
+  completedAt     DateTime?
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  @@unique([userId, courseId])
+  @@map("user_course")
+  @@index([userId])
+}
+
+model UserLesson {
+  userId      String
+  lessonId    String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lesson      Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  completedAt DateTime @default(now())
+
+  @@id([userId, lessonId])
+  @@map("user_lesson")
+}
+
+// ─── Achievements / Badges ───────────────────────────────────────────────────
+
+model Achievement {
+  id          String            @id @default(cuid())
+  name        String            @unique
+  description String
+  iconUrl     String?
+  xpReward    Int               @default(50)
+  condition   String            // "COMPLETE_5_COURSES", "STREAK_7_DAYS", "REACH_LEVEL_10"
+  users       UserAchievement[]
+
+  @@map("achievement")
+}
+
+model UserAchievement {
+  userId        String
+  achievementId String
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  achievement   Achievement @relation(fields: [achievementId], references: [id], onDelete: Cascade)
+  earnedAt      DateTime    @default(now())
+
+  @@id([userId, achievementId])
+  @@map("user_achievement")
 }
