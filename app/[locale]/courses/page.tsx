@@ -49,7 +49,7 @@ const isLocked = true;
 
 export default function TopicsPage() {
     // using translation test
-    const t = useTranslations('TopicsPage');
+    const t = useTranslations('CoursesPage');
 
     return (
         <div className="min-h-screen overflow-hidden bg-white py-12 sm:py-6 dark:bg-gray-900">
