@@ -79,14 +79,16 @@ export default function NavBar() {
                     </div>
                     <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                         <div className="flex shrink-0 items-center">
-                            <Image
-                                alt="Think Phi"
-                                width={350}
-                                height={350}
-                                src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
-                                loading="eager"
-                                className="h-8 w-auto"
-                            />
+                            <Link href={'/'}>
+                                <Image
+                                    alt="Think Phi"
+                                    width={350}
+                                    height={350}
+                                    src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
+                                    loading="eager"
+                                    className="h-8 w-auto"
+                                />
+                            </Link>
                         </div>
                         <div className="hidden sm:ml-6 sm:block">
                             <div className="flex space-x-4">
