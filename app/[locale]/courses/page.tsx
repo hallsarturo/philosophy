@@ -100,7 +100,7 @@ export default function CoursesPage() {
                             className="divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow-sm dark:divide-white/10 dark:bg-gray-800/50 dark:shadow-none dark:outline dark:-outline-offset-1 dark:outline-white/10"
                         >
                             <div className="flex justify-between align-middle font-semibold px-4 py-5 sm:px-6">
-                                <div className="flex gap-4">
+                                <div className="flex items-center gap-4">
                                     {course.title}
                                     <div>
                                         <p
@@ -109,6 +109,9 @@ export default function CoursesPage() {
                                             {course.difficulty}
                                         </p>
                                     </div>
+                                    <p className="text-xs">
+                                        {course.xpReward} xp
+                                    </p>
                                 </div>
                                 <button
                                     type="button"
