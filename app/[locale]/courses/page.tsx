@@ -6,7 +6,11 @@ import { LockClosedIcon } from '@heroicons/react/24/outline';
 import { useTranslations } from 'next-intl';
 import { Suspense, useState, useEffect } from 'react';
 import { authClient } from '@/lib/auth-client';
-import CoursesPageServer from '@/server/components/CoursesPageServer';
+import { Prisma } from '@/lib/generated/prisma/client';
+
+export type CourseWithLessons = Prisma.CourseGetPayload<{
+    include: { lessons: true };
+}>;
 
 const coursesList = [
     {
@@ -50,13 +54,6 @@ const projects = [
     },
 ];
 
-// Types
-type Course = { id: string; title: string; description: string };
-
-type CoursesPageProps = {
-    courses: Course[];
-};
-
 export default function CoursesPage() {
     // using translation test
     const t = useTranslations('CoursesPage');
@@ -66,7 +63,7 @@ export default function CoursesPage() {
 
     // courses data
     const [coursesError, setCoursesError] = useState<string | null>(null);
-    const [courses, setCourses] = useState([]);
+    const [courses, setCourses] = useState<CourseWithLessons[]>([]);
 
     useEffect(() => {
         fetch('/api/db/courses')
