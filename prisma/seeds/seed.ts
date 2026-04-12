@@ -10,6 +10,11 @@ const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
+    await prisma.userLesson.deleteMany();
+    await prisma.userCourse.deleteMany();
+    await prisma.lesson.deleteMany();
+    await prisma.course.deleteMany();
+
     for (const course of courses) {
         const created = await prisma.course.create({
             data: {
