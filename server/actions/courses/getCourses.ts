@@ -2,14 +2,19 @@
 
 import prisma from '@/lib/prisma';
 
-export async function getCourses() {
+export async function getCourses(userId?: string) {
     try {
         const result = prisma.course.findMany({
             include: {
-                lessons: true,
+                lessons: {
+                    include: {
+                        completions: userId ? { where: { userId } } : false,
+                    },
+                    orderBy: { order: 'asc' },
+                },
+                enrollments: userId ? { where: { userId } } : false,
             },
         });
-        console.log(result);
 
         return result;
     } catch (err) {
