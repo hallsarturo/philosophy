@@ -22,3 +22,8 @@ export async function getCourses(userId?: string) {
         throw new Error('Failed to fetch courses');
     }
 }
+
+export async function getLessonsByCourseId(courseId: string) {
+    
+
+}
