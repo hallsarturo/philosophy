@@ -8,7 +8,8 @@ export async function getCourses(userId?: string) {
             include: {
                 lessons: {
                     include: {
-                        completions: userId ? { where: { userId } } : false,
+                        completions: userId ? { where: { userId } } : true,
+                        prerequisites: true,
                     },
                     orderBy: { order: 'asc' },
                 },

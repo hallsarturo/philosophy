@@ -7,6 +7,8 @@ import Link from 'next/link';
 type LessonButtonProps = {
     courseSlug: string;
     lesson: CourseWithLessons['lessons'][number];
+    done?: boolean;
+    unlocked?: boolean;
 };
 
 type CourseButtonProps = {
@@ -36,19 +38,15 @@ export function CourseButton({ courseSlug }: CourseButtonProps) {
         </Link>
     );
 }
-export function LessonButton({ lesson, courseSlug }: LessonButtonProps) {
+export function LessonButton({
+    lesson,
+    courseSlug,
+    done,
+    unlocked,
+}: LessonButtonProps) {
     // better-auth session
     const { data: session } = authClient.useSession();
     // locked status:
-    function isLessonDone(lesson) {
-        return lesson.completitions && lesson.completitions.length > 0;
-    }
-
-    functin isLessonUnlocked(lesson, lessonsById) {
-        if(!lesson.prerequisites || lesson.prerequisites.length === 0) {
-            
-        }
-    }
 
     return (
         <Link

@@ -5,7 +5,14 @@ import { Prisma } from '@/lib/generated/prisma/client';
 import { LessonButton, CourseButton } from '@/components/courses/Buttons';
 
 export type CourseWithLessons = Prisma.CourseGetPayload<{
-    include: { lessons: true };
+    include: {
+        lessons: {
+            include: {
+                completions: true;
+                prerequisites: true;
+            };
+        };
+    };
 }>;
 
 export default async function CoursesList({ userId }: { userId?: string }) {
@@ -17,6 +24,25 @@ export default async function CoursesList({ userId }: { userId?: string }) {
         medium: 'bg-yellow-50 text-yellow-800 inset-ring inset-ring-yellow-600/20',
         hard: 'bg-red-50 text-red-700 inset-ring inset-ring-red-600/20',
     };
+
+    const lessonsById: Record<string, CourseWithLessons['lessons'][number]> = {}
+    courses.forEach(course => {
+        course.lessons.forEach((lesson) => {
+            lessonsById[lesson.id] = lesson
+        })
+    })
+
+    function isLessonDone(lesson: CourseWithLessons['lessons'][number]) {
+        return lesson.completions && lesson.completions.length > 0;
+    }
+
+    function isLessonUnlocked(lesson: CourseWithLessons['lessons'][number], lessonsById: Record<string, CourseWithLessons['lessons'][number]>) {
+        if (!lesson.prerequisites || lesson.prerequisites.length === 0)
+            return true;
+        return lesson.prerequisites.every(
+            (prereq) => lessonsById[prereq.id]?.completions?.length > 0
+        );
+    }
 
     return (
         <>
@@ -76,8 +102,13 @@ export default async function CoursesList({ userId }: { userId?: string }) {
                                         ) : null}
 
                                         <LessonButton
-                                            course={course.slug}
+                                            courseSlug={course.slug}
                                             lesson={lesson}
+                                            done={isLessonDone(lesson)}
+                                            unlocked={isLessonUnlocked(
+                                                lesson,
+                                                lessonsById
+                                            )}
                                         />
 
                                         <Menu
