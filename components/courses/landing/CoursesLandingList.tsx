@@ -1,6 +1,6 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import { EllipsisVerticalIcon } from '@heroicons/react/20/solid';
-import { getCourses } from '@/server/actions/courses/getCourses';
+import { getCourses } from git ;
 import { Prisma } from '@/lib/generated/prisma/client';
 import { LessonButton, CourseButton } from '@/components/courses/Buttons';
 
