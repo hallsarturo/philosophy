@@ -49,12 +49,30 @@ export function LessonButton({
     // locked status:
 
     return (
-        <Link
-            href={`courses/${courseSlug}/${lesson.slug}`}
-            className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 sm:block cursor-pointer"
-        >
-            {!session?.user ? <LockClosedIcon className="size-4" /> : 'go'}
-            <span className="sr-only">, {lesson.title}</span>
-        </Link>
+        <>
+            {!session?.user ? (
+                <LockClosedIcon className="size-4" />
+            ) : (
+                <>
+                    {done && (
+                        <Link
+                            href={`courses/${courseSlug}/${lesson.slug}`}
+                            className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 sm:block cursor-pointer"
+                        >
+                            re-do
+                        </Link>
+                    )}
+                    {unlocked && (
+                        <Link
+                            href={`courses/${courseSlug}/${lesson.slug}`}
+                            className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 sm:block cursor-pointer"
+                        >
+                            go
+                        </Link>
+                    )}
+                    {!unlocked && <LockClosedIcon className="size-4" />}
+                </>
+            )}
+        </>
     );
 }
