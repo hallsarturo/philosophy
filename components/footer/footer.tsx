@@ -85,7 +85,7 @@ export default function Footer() {
                     ))}
                 </div>
                 <p className="mt-8 text-center text-sm/6 text-gray-600 md:order-1 md:mt-0 dark:text-gray-400">
-                    &copy; 2026 Thinkrift. All rights reserved.
+                    &copy; 2026 Thinkphi.app All rights reserved.
                 </p>
                 <p className="mt-8 text-center text-sm/6 text-gray-600 md:order-1 md:mt-0 dark:text-gray-400">
                     Buy me a cofee

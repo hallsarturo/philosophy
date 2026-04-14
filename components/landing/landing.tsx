@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 const navigation = [
     { name: 'How it Works', href: '#' },
@@ -7,9 +8,9 @@ const navigation = [
     { name: 'About', href: '#' },
 ];
 
-export default function Example() {
+export default function Landing() {
     return (
-        <div className="bg-white dark:bg-gray-900">
+        <div className="min-h-screen bg-white dark:bg-gray-900">
             <main>
                 <div className="relative isolate">
                     <svg
@@ -73,12 +74,12 @@ export default function Example() {
                                         textbooks required.
                                     </p>
                                     <div className="mt-10 flex items-center gap-x-6">
-                                        <a
-                                            href="#"
+                                        <Link
+                                            href="/sign-up"
                                             className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 dark:bg-indigo-500 dark:hover:bg-indigo-400 dark:focus-visible:outline-indigo-500"
                                         >
                                             Start learning - it&apos;s free
-                                        </a>
+                                        </Link>
                                         <a
                                             href="#"
                                             className="text-sm/6 font-semibold text-gray-900 dark:text-white"

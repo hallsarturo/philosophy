@@ -9,14 +9,23 @@ import {
     MenuItem,
     MenuItems,
 } from '@headlessui/react';
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
-import { ModeToggle } from '@/components/mode-toggle';
+import {
+    Bars3Icon,
+    BellIcon,
+    XMarkIcon,
+    TrophyIcon,
+} from '@heroicons/react/24/outline';
+import { ModeToggle } from '@/components/navbar/mode-toggle';
+import LanguageSelector from '@/components/navbar/language-selector';
 import { LogIn } from '@/components/log-in/log-in';
-import { useState } from 'react';
+import Image from 'next/image';
+import { authClient } from '@/lib/auth-client';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 const navigation = [
     { name: 'How it works', href: '#', current: false },
-    { name: 'Topics', href: '#', current: false },
+    { name: 'Courses', href: '/courses', current: false },
     { name: 'Leaderboard', href: '#', current: false },
     { name: 'About', href: '#', current: false },
 ];
@@ -26,7 +35,25 @@ function classNames(...classes: (string | undefined | null | false)[]) {
 }
 
 export default function NavBar() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const router = useRouter();
+
+    async function handleSignOut() {
+        await authClient.signOut({
+            fetchOptions: {
+                onSuccess: () => {
+                    router.push('/'); // redirect to login page
+                },
+            },
+        });
+    }
+
+    // Setting session state
+    const {
+        data: session,
+        isPending,
+        error,
+        refetch,
+    } = authClient.useSession();
 
     return (
         <Disclosure
@@ -52,16 +79,21 @@ export default function NavBar() {
                     </div>
                     <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                         <div className="flex shrink-0 items-center">
-                            <img
-                                alt="Your Company"
-                                src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
-                                className="h-8 w-auto"
-                            />
+                            <Link href={'/'}>
+                                <Image
+                                    alt="Think Phi"
+                                    width={350}
+                                    height={350}
+                                    src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
+                                    loading="eager"
+                                    className="h-8 w-auto"
+                                />
+                            </Link>
                         </div>
                         <div className="hidden sm:ml-6 sm:block">
                             <div className="flex space-x-4">
                                 {navigation.map((item) => (
-                                    <a
+                                    <Link
                                         key={item.name}
                                         href={item.href}
                                         aria-current={
@@ -75,16 +107,21 @@ export default function NavBar() {
                                         )}
                                     >
                                         {item.name}
-                                    </a>
+                                    </Link>
                                 ))}
                             </div>
                         </div>
                     </div>
-                    {isLoggedIn && (
+                    {/* Theme Toggle & Language Selection */}
+                    <div className="flex items-center gap-2 mr-3">
+                        <ModeToggle />
+                        <LanguageSelector />
+                    </div>
+                    {session && (
                         <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                             <button
                                 type="button"
-                                className="relative rounded-full p-1 text-gray-900 hover:bg-gray-100 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-500 dark:text-white dark:hover:bg-white/10 dark:hover:text-white"
+                                className="relative rounded-full p-1 text-gray-900 hover:bg-gray-100 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-500 dark:text-white dark:hover:bg-white/10 dark:hover:text-white cursor-pointer"
                             >
                                 <span className="absolute -inset-1.5" />
                                 <span className="sr-only">
@@ -97,15 +134,21 @@ export default function NavBar() {
                             </button>
 
                             {/* Profile dropdown */}
-                            <Menu as="div" className="relative ml-3">
-                                <MenuButton className="relative flex rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
+                            <Menu as="div" className="relative mx-3">
+                                <MenuButton className="relative flex rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 cursor-pointer">
                                     <span className="absolute -inset-1.5" />
                                     <span className="sr-only">
                                         Open user menu
                                     </span>
-                                    <img
+                                    <Image
                                         alt=""
-                                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                        width={350}
+                                        height={350}
+                                        loading="eager"
+                                        src={
+                                            session.user.image ||
+                                            'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
+                                        }
                                         className="size-8 rounded-full bg-transparent outline -outline-offset-1 outline-white/10"
                                     />
                                 </MenuButton>
@@ -115,12 +158,17 @@ export default function NavBar() {
                                     className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white/90 py-1 shadow-lg outline outline-black/5 transition data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in dark:bg-gray-900/90 dark:shadow-none dark:-outline-offset-1 dark:outline-white/10"
                                 >
                                     <MenuItem>
-                                        <a
-                                            href="#"
+                                        <div className="block px-4 py-2 text-sm text-gray-900 font-bold data-focus:bg-gray-100 data-focus:outline-hidden dark:text-white dark:data-focus:bg-white/10">
+                                            {session.user.name}
+                                        </div>
+                                    </MenuItem>
+                                    <MenuItem>
+                                        <Link
+                                            href={`/profile/${session.user.id}`}
                                             className="block px-4 py-2 text-sm text-gray-900 data-focus:bg-gray-100 data-focus:outline-hidden dark:text-white dark:data-focus:bg-white/10"
                                         >
                                             Your profile
-                                        </a>
+                                        </Link>
                                     </MenuItem>
                                     <MenuItem>
                                         <a
@@ -131,25 +179,27 @@ export default function NavBar() {
                                         </a>
                                     </MenuItem>
                                     <MenuItem>
-                                        <a
-                                            href="#"
-                                            className="block px-4 py-2 text-sm text-gray-900 data-focus:bg-gray-100 data-focus:outline-hidden dark:text-white dark:data-focus:bg-white/10"
+                                        <button
+                                            onClick={handleSignOut}
+                                            className="block px-4 py-2 w-full text-left text-sm text-gray-900 data-focus:bg-gray-100 data-focus:outline-hidden dark:text-white dark:data-focus:bg-white/10 cursor-pointer"
                                         >
                                             Sign out
-                                        </a>
+                                        </button>
                                     </MenuItem>
                                 </MenuItems>
                             </Menu>
+
+                            {/* Stats Icon */}
+                            <TrophyIcon className="size-6" />
+                            <p className="text-xs">
+                                {'<'}8pts{'>'}
+                            </p>
                         </div>
                     )}
-                    <div className="mr-6">
-                        <ModeToggle />
-                    </div>
 
-                    {!isLoggedIn && (
+                    {!session && (
                         <div className="py-6">
                             <LogIn />
-                            
                         </div>
                     )}
                 </div>
