@@ -23,8 +23,14 @@ export default function middleware(request: NextRequest) {
 
     if (isProtected) {
         // Check for the session cookie
-        const session = request.cookies.get('better-auth.session_token');
+        const sessionCookieName =
+            process.env.NODE_ENV === 'production'
+                ? '__Secure-better-auth.session_token'
+                : 'better-auth.session_token';
+        const session = request.cookies.get(sessionCookieName);
+
         if (!session) {
+            console.log('No session detected: ', sessionCookieName)
             return NextResponse.redirect(new URL('/sign-up', request.url));
         }
     }
