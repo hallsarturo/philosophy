@@ -1,7 +1,7 @@
 'use client';
 import { authClient } from '@/lib/auth-client';
 import { LockClosedIcon } from '@heroicons/react/24/outline';
-import type { CourseWithLessons } from './CoursesList';
+import type { CourseWithLessons } from '@/types/courses';
 import Link from 'next/link';
 
 type LessonButtonProps = {

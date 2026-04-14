@@ -72,7 +72,7 @@ export default async function CoursesList({ userId }: { userId?: string }) {
                                         </div>
                                     </div>
                                     <div className="flex flex-none items-center gap-x-4">
-                                        {lesson.status === 'In progress' ? (
+                                        {/* {lesson.status === 'In progress' ? (
                                             <p className="mt-0.5 rounded-md bg-gray-50 px-1.5 py-0.5 text-xs font-medium text-gray-600 inset-ring inset-ring-gray-500/10">
                                                 {lesson.status}
                                             </p>
@@ -91,7 +91,7 @@ export default async function CoursesList({ userId }: { userId?: string }) {
                                         <LessonButton
                                             course={course.slug}
                                             lesson={lesson}
-                                        />
+                                        /> */}
 
                                         <Menu
                                             as="div"

@@ -85,7 +85,7 @@ export default async function CoursesList({ userId }: { userId?: string }) {
                                         </div>
                                     </div>
                                     <div className="flex flex-none items-center gap-x-4">
-                                        {lesson.status === 'In progress' ? (
+                                        {/* {lesson.status === 'In progress' ? (
                                             <p className="mt-0.5 rounded-md bg-gray-50 px-1.5 py-0.5 text-xs font-medium text-gray-600 inset-ring inset-ring-gray-500/10">
                                                 {lesson.status}
                                             </p>
@@ -99,7 +99,7 @@ export default async function CoursesList({ userId }: { userId?: string }) {
                                             <p className="mt-0.5 rounded-md bg-yellow-50 px-1.5 py-0.5 text-xs font-medium text-yellow-800 inset-ring inset-ring-yellow-600/20">
                                                 {lesson.status}
                                             </p>
-                                        ) : null}
+                                        ) : null} */}
 
                                         <LessonButton
                                             courseSlug={course.slug}
