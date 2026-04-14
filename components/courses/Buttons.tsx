@@ -18,7 +18,7 @@ type CourseButtonProps = {
 export function PreviewCourseButton({ courseSlug }: CourseButtonProps) {
     return (
         <Link
-            href={`/courses/${courseSlug}`}
+            href={`/course/${courseSlug}`}
             type="button"
             className="rounded-full bg-white px-2.5 py-1 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 dark:bg-white/10 dark:text-white dark:shadow-none dark:inset-ring-white/5 dark:hover:bg-white/20 cursor-pointer"
         >
@@ -30,7 +30,7 @@ export function PreviewCourseButton({ courseSlug }: CourseButtonProps) {
 export function CourseButton({ courseSlug }: CourseButtonProps) {
     return (
         <Link
-            href={`/courses/${courseSlug}`}
+            href={`/course/${courseSlug}`}
             type="button"
             className="rounded-full bg-indigo-600 px-3.5 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 cursor-pointer"
         >
@@ -56,7 +56,7 @@ export function LessonButton({
                 <>
                     {done && (
                         <Link
-                            href={`courses/${courseSlug}/${lesson.slug}`}
+                            href={`course/${courseSlug}/${lesson.slug}`}
                             className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 sm:block cursor-pointer"
                         >
                             re-do
@@ -64,7 +64,7 @@ export function LessonButton({
                     )}
                     {unlocked && (
                         <Link
-                            href={`courses/${courseSlug}/${lesson.slug}`}
+                            href={`course/${courseSlug}/${lesson.slug}`}
                             className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 sm:block cursor-pointer"
                         >
                             go

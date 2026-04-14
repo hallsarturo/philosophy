@@ -23,4 +23,27 @@ export async function getCourses(userId?: string) {
     }
 }
 
-export async function getLessonsByCourseId(courseId: string) {}
+export async function getLessonsByCourseSlug(
+    userId: string,
+    courseSlug: string
+) {
+    try {
+        const result = prisma.course.findUnique({
+            where: { slug: courseSlug },
+            include: {
+                lessons: {
+                    include: {
+                        completions: { where: { userId } },
+                        prerequisites: true,
+                    },
+                    orderBy: { order: 'asc' },
+                },
+                enrollments: { where: { userId } },
+            },
+        });
+        return result;
+    } catch (err) {
+        console.error('getLessonsByCourseSlug error:', err);
+        throw new Error('Failed to fetch courses');
+    }
+}

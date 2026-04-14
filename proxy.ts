@@ -12,13 +12,13 @@ export default function middleware(request: NextRequest) {
     // Optimistic secure proxing (better-auth)
 
     // Protected paths
-    const protectedPaths = ['payment'];
+    const protectedPaths = ['payment', 'course'];
     const { pathname } = request.nextUrl;
     const localeMatch = pathname.match(/^\/[a-z]{2}(\/.*)/);
     const normalizedPath = localeMatch ? localeMatch[1] : pathname;
 
     const isProtected = protectedPaths.some((protectedPath) =>
-        normalizedPath.startsWith(`/${protectedPath}`)
+        normalizedPath.split('/').some((segment) => segment === protectedPath)
     );
 
     if (isProtected) {

@@ -19,6 +19,20 @@ export default async function CoursesList({ userId }: { userId?: string }) {
 
     return (
         <>
+            (
+            <div className="flex flex-col w-screen items-center mt-20 gap-20">
+                <div className="divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow-sm dark:divide-white/10 dark:bg-gray-800/50 dark:shadow-none dark:outline dark:-outline-offset-1 dark:outline-white/10">
+                    <div className="px-4 py-5 sm:px-6">
+                        {/* Content goes here */}
+                        Lesson Title
+                    </div>
+                    <div className="px-4 py-5 sm:p-6">
+                        {/* Content goes here */}
+                        progress
+                    </div>
+                </div>
+            </div>
+            )
             {courses.map((course) => (
                 <div
                     key={course.id}

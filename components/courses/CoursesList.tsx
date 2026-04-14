@@ -1,23 +1,12 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import { EllipsisVerticalIcon } from '@heroicons/react/20/solid';
 import { getCourses } from '@/server/actions/courses/getCourses';
-import { Prisma } from '@/lib/generated/prisma/client';
+import type { CourseWithLessons } from '@/types/courses';
 import {
     LessonButton,
     CourseButton,
     PreviewCourseButton,
 } from '@/components/courses/Buttons';
-
-export type CourseWithLessons = Prisma.CourseGetPayload<{
-    include: {
-        lessons: {
-            include: {
-                completions: true;
-                prerequisites: true;
-            };
-        };
-    };
-}>;
 
 export default async function CoursesList({ userId }: { userId?: string }) {
     const courses: CourseWithLessons[] = await getCourses(userId);

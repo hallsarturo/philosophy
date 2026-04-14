@@ -1,8 +1,12 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'motion/react';
 import { getImageProps } from 'next/image';
+import type { CourseRecord } from '@/types/courses';
+
+type ParallaxProps = {
+    courseData: CourseRecord;
+};
 
 function getBackgroundImage(srcSet = '') {
     const imageSet = srcSet
@@ -15,17 +19,7 @@ function getBackgroundImage(srcSet = '') {
     return `image-set(${imageSet})`;
 }
 
-function DummyMap() {
-    return (
-        <div className="flex flex-col w-screen items-center mt-20 gap-20">
-            <div className="w-70 h-25 m-2 inline-block rounded-lg bg-red-400"></div>
-            <div className="w-70 h-25 m-2 inline-block rounded-lg bg-blue-400"></div>
-            <div className="w-70 h-25 m-2 inline-block rounded-lg bg-green-400"></div>
-        </div>
-    );
-}
-
-export default function Parallax() {
+export default function Parallax({ courseData }: ParallaxProps) {
     // setting image
     const {
         props: { srcSet },
@@ -46,8 +40,8 @@ export default function Parallax() {
 
     const { scrollY } = useScroll();
     const backgroundY = useTransform(scrollY, [0, 1000], [0, -200]); // slowest
-    const textY = useTransform(scrollY, [0, 1000], [0, -400]); // medium
-    const dummyMapY = useTransform(scrollY, [0, 1000], [0, -600]); // fastest
+    const textY = useTransform(scrollY, [0, 1000], [0, -1600]); // medium
+    const dummyMapY = useTransform(scrollY, [0, 1000], [0, -2400]); // fastest
 
     return (
         <div className="min-h-screen bg-white py-6 sm:py-8 dark:bg-gray-900">
@@ -62,22 +56,33 @@ export default function Parallax() {
                             className="mx-auto max-w-4xl px-16 py-8 lg:mx-0 backdrop-blur-xl rounded-xl"
                             style={{ y: textY }}
                         >
-                            <h2 className="text-5xl font-semibold tracking-tight text-gray-900 sm:text-7xl dark:text-white">
-                                Ps
-                                <span className="text-white">
-                                    eudo-Science{' '}
-                                </span>
-                                de
-                                <span className="text-white">marcation 1</span>
+                            <h2 className="text-5xl font-semibold tracking-tight text-gray-400 sm:text-7xl dark:text-white">
+                                {courseData?.title}
                             </h2>
                             <p className="mt-8 text-lg font-medium text-pretty text-gray-500 sm:text-xl/8 dark:text-gray-400">
-                                Anim aute id magna aliqua ad ad non deserunt
-                                sunt. Qui irure qui lorem cupidatat commodo.
-                                Elit sunt amet fugiat veniam occaecat fugiat.
+                                {courseData?.description}
                             </p>
                         </motion.div>
                         <motion.div style={{ y: dummyMapY }}>
-                            <DummyMap />
+                            <div className="pt-10">
+                                {courseData?.lessons.map((lesson) => (
+                                    <div
+                                        key={lesson.id}
+                                        className="flex flex-col w-screen items-center my-20 gap-20"
+                                    >
+                                        <div className="min-w-md divide-y divide-gray-200 overflow-hidden rounded-lg bg-white shadow-sm dark:divide-white/10 dark:bg-gray-800/50 dark:shadow-none dark:outline dark:-outline-offset-1 dark:outline-white/10">
+                                            <div className="px-4 py-5 sm:px-6 font-bold">
+                                                {/* Content goes here */}
+                                                {lesson.title}
+                                            </div>
+                                            <div className="px-4 py-5 sm:p-6">
+                                                {/* Content goes here */}
+                                                progress
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
                         </motion.div>
                     </div>
                 </motion.div>
