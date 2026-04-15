@@ -27,7 +27,14 @@ export default function LanguageSelector() {
                 id="language"
                 name="language-toggle"
                 defaultValue="EN"
-                className="w-full appearance-none rounded-md bg-white py-1.5 pr-4 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-indigo-600 sm:text-sm/6 cursor-pointer"
+                className="
+                    w-full appearance-none rounded-md
+                    bg-transparent text-gray-900 outline-1 outline-gray-300
+                    dark:bg-transparent dark:text-white dark:outline-gray-700
+                    py-1.5 pr-2 pl-2 text-base
+                    focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-indigo-600
+                    sm:text-sm cursor-pointer
+                "
             >
                 <option value="en">EN</option>
                 <option value="es">ES</option>
