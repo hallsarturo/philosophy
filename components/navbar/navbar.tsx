@@ -63,7 +63,7 @@ export default function NavBar() {
             <div className="mx-auto min-w-screen px-2 sm:px-6 lg:px-8 bg-white">
                 <div className="flex h-16 items-center justify-between w-full">
                     {/* Left group: Hamburger + Logo */}
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-6 ml-4">
                         <DisclosureButton className="sm:hidden group relative inline-flex items-center justify-center rounded-md p-2 text-gray-900 hover:bg-gray-100 hover:text-gray-900 focus:outline-2 focus:-outline-offset-1 focus:outline-indigo-500 dark:text-white dark:hover:bg-white/10 dark:hover:text-white">
                             <span className="absolute -inset-0.5" />
                             <span className="sr-only">Open main menu</span>
@@ -83,7 +83,7 @@ export default function NavBar() {
                                 height={350}
                                 src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
                                 loading="eager"
-                                className="h-8 w-auto"
+                                className="h-7 w-auto"
                             />
                         </Link>
                     </div>
@@ -224,12 +224,11 @@ export default function NavBar() {
                 </div>
             </div>
 
-            <DisclosurePanel className="sm:hidden">
+            <DisclosurePanel className="sm:hidden bg-white dark:bg-gray-900 shadow-md">
                 <div className="space-y-1 px-2 pt-2 pb-3">
                     {navigation.map((item) => (
-                        <DisclosureButton
+                        <Link
                             key={item.name}
-                            as="a"
                             href={item.href}
                             aria-current={item.current ? 'page' : undefined}
                             className={classNames(
@@ -240,7 +239,7 @@ export default function NavBar() {
                             )}
                         >
                             {item.name}
-                        </DisclosureButton>
+                        </Link>
                     ))}
                 </div>
             </DisclosurePanel>
