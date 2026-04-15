@@ -8,12 +8,23 @@ import {
 } from 'motion/react';
 import { getImageProps } from 'next/image';
 import type { CourseRecord } from '@/types/courses';
+import { useEffect, useState } from 'react';
 
 type ParallaxProps = {
     courseData: CourseRecord;
 };
 
 export default function Parallax({ courseData }: ParallaxProps) {
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const mq = window.matchMedia('(max-width: 639px)');
+        setIsMobile(mq.matches);
+        const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+        mq.addEventListener('change', handler);
+        return () => mq.removeEventListener('change', handler);
+    }, []);
+
     function getBackgroundImage(srcSet = '') {
         const imageSet = srcSet
             .split(', ')
@@ -43,16 +54,18 @@ export default function Parallax({ courseData }: ParallaxProps) {
     const { scrollY } = useScroll();
     const isReduced = useReducedMotion();
 
+    const noMotion = isReduced || isMobile;
+
     const backgroundY = useTransform(
         scrollY,
         [0, 1000],
-        [0, isReduced ? 0 : -500]
+        [0, noMotion ? 0 : -500]
     );
-    const textY = useTransform(scrollY, [0, 1000], [0, isReduced ? 0 : -1600]);
+    const textY = useTransform(scrollY, [0, 1000], [0, noMotion ? 0 : -1600]);
     const dummyMapY = useTransform(
         scrollY,
         [0, 1000],
-        [0, isReduced ? 0 : -3200]
+        [0, noMotion ? 0 : -3200]
     );
 
     return (
