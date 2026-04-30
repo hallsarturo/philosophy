@@ -4,15 +4,15 @@ An interactive philosophy learning platform built with Next.js. Learn epistemolo
 
 ## Tech Stack
 
-| Layer | Technology |
-|---|---|
-| Framework | Next.js 16 (App Router) |
-| Language | TypeScript 5 |
-| Styling | Tailwind CSS v4, shadcn/ui |
-| Auth | Better Auth v1 (email/password + Google OAuth) |
-| Database | PostgreSQL via Prisma 7 + Prisma Accelerate |
-| Animations | Motion (Framer Motion v12) |
-| i18n | next-intl (English & Spanish) |
+| Layer      | Technology                                     |
+| ---------- | ---------------------------------------------- |
+| Framework  | Next.js 16 (App Router)                        |
+| Language   | TypeScript 5                                   |
+| Styling    | Tailwind CSS v4, shadcn/ui                     |
+| Auth       | Better Auth v1 (email/password + Google OAuth) |
+| Database   | PostgreSQL via Prisma 7 + Prisma Accelerate    |
+| Animations | Motion (Framer Motion v12)                     |
+| i18n       | next-intl (English & Spanish)                  |
 
 ## Features
 
@@ -29,11 +29,11 @@ An interactive philosophy learning platform built with Next.js. Learn epistemolo
 - **Navbar** — language selector, dark mode toggle, login button
 - **Profile page** (`/profile/[userId]`) — heading and stats layout scaffolded
 - **Database schema** — full Prisma schema covering:
-  - Users, Sessions, Accounts (Better Auth models)
-  - Courses & Lessons with slug routing, difficulty, XP rewards, ordering, and prerequisites
-  - User progress: `UserCourse` (enrolment + progress %) and `UserLesson` (per-lesson completion)
-  - Gamification: `UserProfile` (level, total XP, streaks), `XpTransaction` audit log, `Achievement` / `UserAchievement` badges
-  - Activity logs and interest/topic tagging
+    - Users, Sessions, Accounts (Better Auth models)
+    - Courses & Lessons with slug routing, difficulty, XP rewards, ordering, and prerequisites
+    - User progress: `UserCourse` (enrolment + progress %) and `UserLesson` (per-lesson completion)
+    - Gamification: `UserProfile` (level, total XP, streaks), `XpTransaction` audit log, `Achievement` / `UserAchievement` badges
+    - Activity logs and interest/topic tagging
 - **Seed script** — seeds courses and automatically links lessons as sequential prerequisites
 
 ### 🚧 In Progress / Scaffolded
@@ -65,11 +65,12 @@ Open http://localhost:3000.
 
 ### Database setup
 
-npx prisma migrate deploy   # run migrations
-npx tsx prisma/seeds/seed.ts  # seed course data
+npx prisma migrate deploy # run migrations
+npx tsx prisma/seeds/seed.ts # seed course data
 
 ### Project Structure
 
+```
 app/[locale]/           # Localised routes (en/es)
   courses/              # Course listing
   course/[slug]/        # Course landing (parallax)
@@ -93,4 +94,4 @@ prisma/
   schema.prisma         # Full data model
   seeds/                # Seed scripts
 i18n/                   # next-intl routing & messages (en, es)
-
+```
